@@ -203,23 +203,33 @@ class FavoritesPage extends StatelessWidget {
       );
     }
 
-    return ListView(
+    return Column(
       children: [
         Padding(
           padding: const EdgeInsets.all(20),
           child: Text('You have '
               '${appState.favorites.length} favorites:'),
         ),
-        for (var pair in appState.favorites)
-          ListTile(
-            title: ElevatedButton.icon(
-              onPressed: () {
-                appState.removeFav(pair);
-              },
-              icon: Icon(Icons.delete),
-              label: Text(pair.asLowerCase),
+        Expanded(
+          child: GridView(
+            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 500,
+              childAspectRatio: 500 / 100,
             ),
+            children: [
+              for (var pair in appState.favorites)
+                ListTile(
+                  title: ElevatedButton.icon(
+                    onPressed: () {
+                      appState.removeFav(pair);
+                    },
+                    icon: Icon(Icons.delete),
+                    label: Text(pair.asLowerCase),
+                  ),
+                ),
+            ],
           ),
+        ),
       ],
     );
   }
